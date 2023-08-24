@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: Go Service to Test Logging
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /:
+    post:
+      summary: Log a message and return a response with the same message and status code
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  description: The message to log and return
+                  default: "Hello world!"
+                status_code:
+                  type: integer
+                  description: The HTTP status code to return
+                  default: 200
+                log_level:
+                  type: string
+                  description: The log level to use for the message
+                  enum: [debug, info, warn, error, panic, fatal]
+                  default: info
+              required:
+                - message
+                - status_code
+                - log_level
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Hello world!"
