@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: Express App API
+  version: 1.0.0
+paths:
+  /echo:
+    post:
+      summary: Echoes the input data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: string
+              example:
+                data: 'Hello, world!'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: string
+              example:
+                data: 'Hello, world!'
+  /proxy:
+    post:
+      summary: Proxy a request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: The URL to proxy the request to
+                method:
+                  type: string
+                  enum: [get, post, put, delete, patch]
+                  description: The HTTP method to use for the proxied request
+                body:
+                  type: object
+                  description: The body of the proxied request
+      responses:
+        '200':
+          description: The proxied request was successful
+          content:
+            application/json:
+              schema:
+                type: object
+                description: The response from the proxied request
+        '500':
+          description: There was an error proxying the request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message
+  /log:
+    post:
+      summary: Logs the payload at the given log level
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                level:
+                  type: string
+                  enum: [info, warn, error]
+                payload:
+                  type: string
+              example:
+                level: 'info'
+                payload: 'This is a log message'
+      responses:
+        '200':
+          description: Logged successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: 'Logged successfully'
+  /healthz:
+    get:
+      summary: Returns the health status of the application
+      responses:
+        '200':
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+              example:
+                status: 'Healthy'
