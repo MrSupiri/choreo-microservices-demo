@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  title: Proxy and DNS Lookup API
+  version: 1.0.0
+paths:
+  /proxy:
+    get:
+      summary: Forward GET request to the target URL
+      parameters:
+        - in: query
+          name: url
+          schema:
+            type: string
+          required: true
+          description: The target URL to forward the request to
+      responses:
+        '200':
+          description: The response from the target URL
+        '400':
+          description: No URL provided
+        '500':
+          description: Error with the request
+    post:
+      summary: Forward POST request to the target URL
+      parameters:
+        - in: query
+          name: url
+          schema:
+            type: string
+          required: true
+          description: The target URL to forward the request to
+      responses:
+        '200':
+          description: The response from the target URL
+        '400':
+          description: No URL provided
+        '500':
+          description: Error with the request
+    put:
+      summary: Forward PUT request to the target URL
+      parameters:
+        - in: query
+          name: url
+          schema:
+            type: string
+          required: true
+          description: The target URL to forward the request to
+      responses:
+        '200':
+          description: The response from the target URL
+        '400':
+          description: No URL provided
+        '500':
+          description: Error with the request
+    delete:
+      summary: Forward DELETE request to the target URL
+      parameters:
+        - in: query
+          name: url
+          schema:
+            type: string
+          required: true
+          description: The target URL to forward the request to
+      responses:
+        '200':
+          description: The response from the target URL
+        '400':
+          description: No URL provided
+        '500':
+          description: Error with the request
+  /dns_lookup:
+    get:
+      summary: Get the IP address of a hostname
+      parameters:
+        - in: query
+          name: hostname
+          schema:
+            type: string
+          required: true
+          description: The hostname to lookup
+      responses:
+        '200':
+          description: The IP address of the hostname
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hostname:
+                    type: string
+                  ip_address:
+                    type: string
+        '400':
+          description: Error with the hostname lookup
