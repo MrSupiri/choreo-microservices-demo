@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"go.uber.org/zap"
+	"golang.org/x/net/http2"
 )
 
 type Payload struct {
@@ -47,8 +48,18 @@ func main() {
 		}
 
 		w.WriteHeader(payload.StatusCode)
+		w.Header().Set("Connection", "close")
 		w.Write([]byte(payload.Message))
 	})
+
 	logger.Info("Starting server on port 8080")
-	http.ListenAndServe(":8080", nil)
+
+	server := &http.Server{
+		Addr: ":8080",
+	}
+
+	http2.ConfigureServer(server, &http2.Server{})
+	server.SetKeepAlivesEnabled(false)
+
+	server.ListenAndServe()
 }
